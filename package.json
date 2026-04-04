@@ -1,0 +1,93 @@
+{
+  "name": "poolscript",
+  "displayName": "PoolScript",
+  "description": "Linguagem PoolScript (.pool) — transpilação por intenção via Ollama, execução automática no terminal.",
+  "version": "4.0.0",
+  "publisher": "poolscript",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "poolscript",
+    "pool",
+    "transpiler",
+    "ai",
+    "python",
+    "ollama"
+  ],
+  "icon": "images/icon.png",
+  "activationEvents": [
+    "onLanguage:poolscript",
+    "workspaceContains:**/*.pool",
+    "onCommand:poolscript.run"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "poolscript",
+        "aliases": ["PoolScript", "pool"],
+        "extensions": [".pool"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/icon.png",
+          "dark": "./images/icon.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "poolscript",
+        "scopeName": "source.poolscript",
+        "path": "./syntaxes/poolscript.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "poolscript.run",
+        "title": "Pool: Executar arquivo PoolScript",
+        "category": "PoolScript",
+        "icon": "$(play)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "poolscript.run",
+          "when": "resourceExtname == .pool",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "poolscript.run",
+          "when": "resourceExtname == .pool",
+          "group": "poolscript"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "poolscript.run",
+        "key": "ctrl+shift+enter",
+        "when": "resourceExtname == .pool && editorFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.3.0"
+  }
+}
