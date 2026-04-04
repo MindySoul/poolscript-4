@@ -1,0 +1,180 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "PoolScript",
+  "scopeName": "source.poolscript",
+  "fileTypes": [".pool"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#python-keywords" },
+    { "include": "#python-builtins" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#function-definition" },
+    { "include": "#class-definition" },
+    { "include": "#decorators" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.poolscript",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.poolscript",
+          "begin": "/\\*",
+          "end": "\\*/"
+        },
+        {
+          "name": "comment.line.number-sign.poolscript",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.triple.double.poolscript",
+          "begin": "\"\"\"",
+          "end": "\"\"\""
+        },
+        {
+          "name": "string.quoted.triple.single.poolscript",
+          "begin": "'''",
+          "end": "'''"
+        },
+        {
+          "name": "string.quoted.double.poolscript",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.poolscript", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.quoted.single.poolscript",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            { "name": "constant.character.escape.poolscript", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.interpolated.poolscript",
+          "begin": "f\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "meta.embedded.poolscript",
+              "begin": "\\{",
+              "end": "\\}",
+              "contentName": "source.poolscript.embedded"
+            },
+            { "name": "constant.character.escape.poolscript", "match": "\\\\." }
+          ]
+        }
+      ]
+    },
+    "python-keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.poolscript",
+          "match": "\\b(if|elif|else|for|while|break|continue|return|yield|pass|raise|try|except|finally|with|as|import|from|in|not|and|or|is|lambda|del|assert|global|nonlocal|async|await)\\b"
+        },
+        {
+          "name": "storage.type.poolscript",
+          "match": "\\b(def|class|None|True|False)\\b"
+        },
+        {
+          "name": "constant.language.poolscript",
+          "match": "\\b(True|False|None)\\b"
+        }
+      ]
+    },
+    "python-builtins": {
+      "name": "support.function.builtin.poolscript",
+      "match": "\\b(print|input|len|range|type|int|float|str|list|dict|set|tuple|bool|open|abs|max|min|sum|sorted|reversed|enumerate|zip|map|filter|any|all|isinstance|issubclass|hasattr|getattr|setattr|delattr|repr|hash|id|dir|vars|callable|iter|next|format|round|pow|divmod|hex|oct|bin|chr|ord|super|property|staticmethod|classmethod)\\b"
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.poolscript",
+          "match": "\\b[0-9]+\\.[0-9]*([eE][+-]?[0-9]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.poolscript",
+          "match": "\\b[0-9]+\\b"
+        },
+        {
+          "name": "constant.numeric.hex.poolscript",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.poolscript",
+          "match": "=|\\+=|-=|\\*=|/=|//=|%=|\\*\\*=|&=|\\|=|\\^=|>>=|<<="
+        },
+        {
+          "name": "keyword.operator.comparison.poolscript",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.arithmetic.poolscript",
+          "match": "\\+|-|\\*|/|//|%|\\*\\*"
+        },
+        {
+          "name": "keyword.operator.logical.poolscript",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arrow.poolscript",
+          "match": "->"
+        }
+      ]
+    },
+    "function-definition": {
+      "patterns": [
+        {
+          "name": "meta.function.poolscript",
+          "match": "\\b(def)\\s+([a-zA-ZÀ-ÿ_][a-zA-ZÀ-ÿ0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "storage.type.function.poolscript" },
+            "2": { "name": "entity.name.function.poolscript" }
+          }
+        }
+      ]
+    },
+    "class-definition": {
+      "patterns": [
+        {
+          "name": "meta.class.poolscript",
+          "match": "\\b(class)\\s+([a-zA-ZÀ-ÿ_][a-zA-ZÀ-ÿ0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.class.poolscript" },
+            "2": { "name": "entity.name.class.poolscript" }
+          }
+        }
+      ]
+    },
+    "decorators": {
+      "name": "meta.decorator.poolscript",
+      "match": "@[a-zA-ZÀ-ÿ_][a-zA-ZÀ-ÿ0-9_.]*",
+      "captures": {
+        "0": { "name": "entity.name.decorator.poolscript" }
+      }
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.poolscript",
+          "match": "\\b[a-zA-ZÀ-ÿ_][a-zA-ZÀ-ÿ0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}
