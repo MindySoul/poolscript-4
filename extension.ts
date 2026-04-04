@@ -24,7 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     const terminal = getOrCreateTerminal();
     terminal.show(true);
-    terminal.sendText(`"${pscomPath}" "${uri.fsPath}"`);
+    // Correção: Remover aspas externas ao redor de pscomPath e uri.fsPath para evitar falha no PowerShell
+    terminal.sendText(`${pscomPath} "${uri.fsPath}"`);
   });
 
   context.subscriptions.push(runCmd);
@@ -35,10 +36,10 @@ function getPScomPath(context: vscode.ExtensionContext): string | null {
 
   // Tenta PScom.exe primeiro (compilado com pyinstaller)
   const exePath = path.join(extensionDir, "bin", "PScom.exe");
-  if (fs.existsSync(exePath)) return exePath;
+  if (fs.existsSync(exePath)) return `"${exePath}"`;
 
   // Fallback: PScom.py via python
-  const pyPath = path.join(extensionDir, "bin", "PScom.py");
+  const pyPath = path.join(extensionDir, "PScom.py");
   if (fs.existsSync(pyPath)) return `python "${pyPath}"`;
 
   return null;

@@ -118,10 +118,13 @@ def pre_scanner_dependencias(codigo_python):
             continue
         if importlib.util.find_spec(pacote) is None:
             print(f"[PoolScript] Instalando dependência: {pacote}...")
-            subprocess.run(
+            # Correção: Remover capture_output=True ou tratar com returncode para não ocultar falhas
+            result = subprocess.run(
                 [sys.executable, "-m", "pip", "install", pacote, "--quiet"],
-                capture_output=True
+                text=True
             )
+            if result.returncode != 0:
+                print(f"[PoolScript] Erro ao instalar dependência: {pacote}")
 
 def mapear_arquivos_locais(pool_dir, codigo_pool):
     """Mapeia arquivos locais mencionados no código .pool."""
@@ -129,7 +132,8 @@ def mapear_arquivos_locais(pool_dir, codigo_pool):
     extensoes_codigo = {".py", ".js", ".ts", ".java", ".cpp", ".c", ".cs", ".go", ".rs"}
 
     arquivos_encontrados = []
-    palavras = re.findall(r'[\w\-]+\.\w+', codigo_pool)
+    # Correção: Regex atualizada para suportar caminhos com '/', '\' ou espaços
+    palavras = re.findall(r'["\']?([\w\-\/\\\s]+\.\w+)["\']?', codigo_pool)
 
     for palavra in palavras:
         ext = os.path.splitext(palavra)[1].lower()
@@ -165,8 +169,9 @@ def executar_python(codigo_python, pool_dir):
         tmp_file = os.path.join(tmp_dir, "_pool_exec.py")
         with open(tmp_file, "w", encoding="utf-8") as f:
             f.write(f"import sys, os\n")
-            f.write(f"sys.path.insert(0, r'{pool_dir}')\n")
-            f.write(f"os.chdir(r'{pool_dir}')\n")
+            # Correção: Usar repr() para caminhos para evitar SyntaxError com '\' no Windows
+            f.write(f"sys.path.insert(0, {repr(pool_dir)})\n")
+            f.write(f"os.chdir({repr(pool_dir)})\n")
             f.write(codigo_python)
 
         resultado = subprocess.run(
