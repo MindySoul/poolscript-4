@@ -2,8 +2,12 @@
   "name": "poolscript",
   "displayName": "PoolScript",
   "description": "Linguagem PoolScript (.pool) — transpilação por intenção via Ollama, execução automática no terminal.",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "publisher": "poolscript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MindySoul/poolscript-4.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -19,7 +23,6 @@
     "python",
     "ollama"
   ],
-  "icon": "images/icon.png",
   "activationEvents": [
     "onLanguage:poolscript",
     "workspaceContains:**/*.pool",
@@ -30,13 +33,14 @@
     "languages": [
       {
         "id": "poolscript",
-        "aliases": ["PoolScript", "pool"],
-        "extensions": [".pool"],
-        "configuration": "./language-configuration.json",
-        "icon": {
-          "light": "./images/icon.png",
-          "dark": "./images/icon.png"
-        }
+        "aliases": [
+          "PoolScript",
+          "pool"
+        ],
+        "extensions": [
+          ".pool"
+        ],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
