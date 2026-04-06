@@ -1,0 +1,3 @@
+/home/ubuntu/poolscript-4/build/CMakeFiles/PscompilerPoolscript.dir
+/home/ubuntu/poolscript-4/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/poolscript-4/build/CMakeFiles/rebuild_cache.dir

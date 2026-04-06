@@ -12,17 +12,18 @@ else()
     add_compile_options(/O2 /arch:AVX2)
 endif()
 
-# Inclui a pasta da biblioteca llama.cpp (deve ser clonada do GitHub)
-add_subdirectory(llama.cpp)
+
+
 
 # Cria o executável a partir do PScom.cpp
 add_executable(PscompilerPoolscript PScom.cpp)
 
-# Une o código com a llama.cpp
-target_link_libraries(PscompilerPoolscript PRIVATE llama ${CMAKE_THREAD_LIBS_INIT})
 
-# Inclui os headers da llama.cpp
-target_include_directories(PscompilerPoolscript PRIVATE llama.cpp)
+find_package(CURL REQUIRED)
+target_link_libraries(PscompilerPoolscript PRIVATE ${CMAKE_THREAD_LIBS_INIT} ${CURL_LIBRARIES})
+
+
+
 
 # Para GPU NVIDIA (opcional — descomente se tiver GPU NVIDIA):
 # cmake .. -G "MinGW Makefiles" -DLLAMA_CUDA=ON -DCMAKE_BUILD_TYPE=Release

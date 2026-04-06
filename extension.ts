@@ -34,17 +34,22 @@ export function activate(context: vscode.ExtensionContext) {
 /**
  * Resolve o comando de execução do PScom.
  * Prioridade:
- * 1. bin/PScom.exe (Executável nativo)
- * 2. python PScom.py (Interpretador Python - Padrão Windows)
+ * 1. PScom.exe (Executável nativo compilado em C++)
+ * 2. bin/PScom.exe (Executável nativo compilado com PyInstaller)
+ * 3. python PScom.py (Interpretador Python - Padrão Windows)
  */
 function getPScomPath(context: vscode.ExtensionContext): string | null {
   const extensionDir = context.extensionPath;
 
-  // 1. Tenta PScom.exe primeiro (compilado com pyinstaller) na pasta bin
-  const exePath = path.join(extensionDir, "bin", "PScom.exe");
-  if (fs.existsSync(exePath)) return `"${exePath}"`;
+  // 1. Tenta PScom.exe na raiz (compilado em C++)
+  const cppExePath = path.join(extensionDir, "PScom.exe");
+  if (fs.existsSync(cppExePath)) return `"${cppExePath}"`;
 
-  // 2. Fallback: PScom.py via python (Padrão Windows: 'python')
+  // 2. Tenta PScom.exe na pasta bin (compilado com PyInstaller)
+  const pyinstallerExePath = path.join(extensionDir, "bin", "PScom.exe");
+  if (fs.existsSync(pyinstallerExePath)) return `"${pyinstallerExePath}"`;
+
+  // 3. Fallback: PScom.py via python (Padrão Windows: 'python')
   const pyPath = path.join(extensionDir, "PScom.py");
   if (fs.existsSync(pyPath)) return `python "${pyPath}"`;
 

@@ -1,34 +1,36 @@
-# Guia de Compilação: PScom.exe 🏗️
+# Guia de Compilação: PScom.exe (C++) 🏗️
 
-Este guia explica como transformar o script `PScom.py` em um executável nativo para Windows (`.exe`), permitindo que a extensão PoolScript funcione de forma mais rápida e sem depender diretamente do interpretador Python no momento da execução.
+Este guia explica como compilar o núcleo de execução do PoolScript (`PScom.cpp`) em um executável nativo para Windows (`.exe`), permitindo que a extensão funcione de forma mais rápida e sem depender diretamente do interpretador Python no momento da execução.
 
 ## 📋 Pré-requisitos
-1. **Python** instalado e no PATH.
-2. **PyInstaller** instalado:
-   ```bash
-   pip install pyinstaller
-   ```
+1. **Compilador C++**: [MinGW-w64](https://www.mingw-w64.org/) com suporte a C++17.
+2. **CMake**: Versão 3.18 ou superior.
+3. **libcurl**: Biblioteca para requisições HTTP.
 
-## 🛠️ Passo a Passo para Compilação
+## 🛠️ Passo a Passo para Compilação (Windows/MinGW)
 
 1. Abra o terminal na raiz do projeto PoolScript.
-2. Execute o comando do PyInstaller:
+2. Crie um diretório de build e compile:
    ```bash
-   pyinstaller --onefile --name PScom PScom.py
+   mkdir build
+   cd build
+   cmake .. -G "MinGW Makefiles"
+   make
    ```
 
 ### O que os parâmetros fazem:
-- `--onefile`: Empacota tudo em um único arquivo `.exe`.
-- `--name PScom`: Define o nome do executável final.
+- `mkdir build`: Cria uma pasta separada para os arquivos de compilação.
+- `cmake .. -G "MinGW Makefiles"`: Configura o projeto usando o CMake e o MinGW.
+- `make`: Compila o código e gera o executável.
 
 ## 📂 Onde encontrar o executável?
-Após a conclusão, o arquivo `PScom.exe` estará dentro da pasta `dist/`.
+Após a conclusão, o arquivo `PscompilerPoolscript.exe` estará dentro da pasta `build/`.
 
 ## 🔧 Como integrar com a Extensão
 Para que a extensão utilize o executável automaticamente:
-1. Crie uma pasta chamada `bin` na raiz da extensão.
-2. Mova o `PScom.exe` para dentro desta pasta `bin/`.
+1. Renomeie o arquivo gerado para `PScom.exe`.
+2. Mova o `PScom.exe` para a raiz da extensão.
 3. A extensão PoolScript detectará o arquivo e o usará como prioridade máxima.
 
 ---
-**Nota**: Se você fizer alterações no `PScom.py`, será necessário recompilar o executável para que as mudanças entrem em vigor.
+**Nota**: Se você fizer alterações no `PScom.cpp`, será necessário recompilar o executável para que as mudanças entrem em vigor.

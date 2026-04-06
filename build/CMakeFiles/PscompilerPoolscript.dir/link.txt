@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/PscompilerPoolscript.dir/PScom.cpp.o -o PscompilerPoolscript  /usr/lib/x86_64-linux-gnu/libcurl.so 
